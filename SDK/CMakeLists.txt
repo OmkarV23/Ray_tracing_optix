@@ -568,7 +568,7 @@ endfunction()
 # add_subdirectory( optixSELFFFFFFF_my_1st_object )
 # add_subdirectory( optixSELFFFFFFF_1st_triangle_mesh )
 # add_subdirectory( optixSELFFFFFFF_multiobject )
-add_subdirectory( optixSELFFFFFFF_icosahedron )
+add_subdirectory( icosahedron_ellipsoid_example )
 
 # Our sutil library.  The rules to build it are found in the subdirectory.
 add_subdirectory(sutil)
