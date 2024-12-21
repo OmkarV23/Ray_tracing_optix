@@ -105,7 +105,7 @@ extern "C" __global__ void __anyhit__ah()
 
 extern "C" __global__ void __closesthit__ch()
 {
-    // set baricentric coordinates
+    // set barycentric coordinates
     float2 barycentrics = optixGetTriangleBarycentrics();
     setPayload( make_float3( barycentrics, 1.0f ) );
 }
