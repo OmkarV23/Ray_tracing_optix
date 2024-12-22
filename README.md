@@ -1,6 +1,7 @@
 # Ray_tracing_optix
 
 This is a simple ray tracing project using NVIDIA OptiX. It is based on the OptiX SDK 8.0.0.
+Works the best with nvidia gpus with Ray Tracing Cores (RTX GPUs).
 
 ## Build
 
