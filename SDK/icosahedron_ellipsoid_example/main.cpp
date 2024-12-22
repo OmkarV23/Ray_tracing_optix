@@ -141,42 +141,57 @@ int main( int argc, char* argv[] )
 
         std::vector<TriangleMesh> meshes;
 
-        // Add multiple meshes
         {
-            // Gaussian 1 parameters
-            float3 mean1 = {0.0f, -0.5f, 0.0f};
-            float3 scale1 = {0.01f, 0.02f, 0.05f};
-            float3x3 rotation1 = {{{1.0f, 1.0f, 0.0f}, {0.0f, 0.707f, -0.707f}, {0.0f, 0.707f, 0.707f}}};
-            float sigma1 = 1.0f, alpha_min1 = 0.1f;
+            std::vector<float3> means = {
+                {0.0f, -0.5f, 0.0f}, {0.0f, 0.1f, 0.2f}, {0.5f, -0.3f, 0.2f}, 
+                {-0.4f, 0.5f, -0.1f}, {0.2f, -0.4f, 0.5f}, {0.1f, 0.6f, -0.3f}, 
+                {-0.3f, 0.0f, 0.6f}, {0.6f, 0.3f, -0.4f}, {-0.5f, -0.6f, 0.0f}, 
+                {0.0f, 0.5f, -0.6f}, {0.7f, -0.3f, 0.1f}, {-0.2f, -0.1f, 0.3f}
+            };
 
-            Icosahedron ico1;
-            ico1.generateUnitIcosahedron();
-            subdivide(ico1.vertices, ico1.indices, 2);
-            ico1.transform(sigma1, alpha_min1, scale1, rotation1, mean1);
-            TriangleMesh mesh1;
-            mesh1.vertex = ico1.vertices;
-            mesh1.index = ico1.indices;
-            mesh1.color = {0.8f, 0.2f, 0.2f};
-            mesh1.MeshId = 0;
-            meshes.push_back(mesh1);
+            std::vector<float3> scales = {
+                {0.08f, 0.02f, 0.05f}, {0.05f, 0.08f, 0.03f}, {0.07f, 0.05f, 0.02f}, 
+                {0.06f, 0.03f, 0.08f}, {0.04f, 0.07f, 0.05f}, {0.08f, 0.06f, 0.04f}, 
+                {0.05f, 0.03f, 0.07f}, {0.06f, 0.08f, 0.03f}, {0.07f, 0.04f, 0.06f}, 
+                {0.04f, 0.06f, 0.08f}, {0.03f, 0.05f, 0.07f}, {0.08f, 0.07f, 0.05f}
+            };
 
-            // Gaussian 2 parameters
-            float3 mean2 = {0.0f, 0.1f, 0.2f};
-            float3 scale2 = {0.01f, 0.02f, 0.05f};
-            float3x3 rotation2 = {{{1.0f, 1.0f, 0.0f}, {0.0f, 0.707f, -0.707f}, {0.0f, 0.707f, 0.707f}}};
-            float sigma2 = 1.0f, alpha_min2 = 0.1f;
+            std::vector<float3x3> rotations = {
+                {{{1.0f, 0.707f, 0.0f}, {0.0f, 0.707f, -0.707f}, {0.0f, 0.707f, 0.707f}}},
+                {{{0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, -0.707f}, {0.0f, 0.234f, 0.43f}}},
+                {{{0.866f, 0.5f, 0.0f}, {0.0f, 0.866f, -0.5f}, {0.5f, 0.0f, 0.866f}}},
+                {{{0.707f, 0.0f, 0.707f}, {0.0f, 1.0f, 0.0f}, {-0.707f, 0.0f, 0.707f}}},
+                {{{1.0f, 0.0f, 0.0f}, {0.0f, 0.866f, -0.5f}, {0.0f, 0.5f, 0.866f}}},
+                {{{0.866f, -0.5f, 0.0f}, {0.5f, 0.866f, 0.0f}, {0.0f, 0.0f, 1.0f}}},
+                {{{0.5f, 0.866f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.866f, -0.5f, 0.0f}}},
+                {{{0.707f, -0.707f, 0.0f}, {0.707f, 0.707f, 0.0f}, {0.0f, 0.0f, 1.0f}}},
+                {{{0.5f, 0.5f, 0.707f}, {0.5f, 0.5f, -0.707f}, {0.707f, -0.707f, 0.0f}}},
+                {{{1.0f, 0.0f, 0.0f}, {0.0f, 0.707f, -0.707f}, {0.0f, 0.707f, 0.707f}}},
+                {{{0.866f, 0.0f, -0.5f}, {0.5f, 0.866f, 0.0f}, {0.0f, 0.5f, 0.866f}}},
+                {{{0.707f, -0.707f, 0.0f}, {0.0f, 0.707f, -0.707f}, {1.0f, 0.0f, 0.0f}}}
+            };
 
-            Icosahedron ico2;
-            ico2.generateUnitIcosahedron();
-            subdivide(ico2.vertices, ico2.indices, 2);
-            ico2.transform(sigma2, alpha_min2, scale2, rotation2, mean2);
-            TriangleMesh mesh2;
-            mesh2.vertex = ico2.vertices;
-            mesh2.index = ico2.indices;
-            mesh2.color = {0.2f, 0.8f, 0.2f};
-            mesh2.MeshId = 1;
-            meshes.push_back(mesh2);
+            std::vector<float> sigmas = {1.0f, 1.2f, 0.9f, 1.1f, 1.3f, 1.0f, 1.1f, 0.8f, 1.2f, 1.0f, 1.15f, 1.05f};
+            std::vector<float> alpha_mins = {0.1f, 0.1f, 0.15f, 0.1f, 0.12f, 0.1f, 0.15f, 0.1f, 0.12f, 0.1f, 0.1f, 0.12f};
+            std::vector<float3> colors = {
+                {0.8f, 0.2f, 0.2f}, {0.2f, 0.8f, 0.2f}, {0.2f, 0.2f, 0.8f}, 
+                {0.8f, 0.8f, 0.2f}, {0.8f, 0.2f, 0.8f}, {0.2f, 0.8f, 0.8f}, 
+                {0.6f, 0.4f, 0.2f}, {0.4f, 0.6f, 0.2f}, {0.6f, 0.2f, 0.4f}, 
+                {0.4f, 0.2f, 0.6f}, {0.5f, 0.5f, 0.5f}, {0.7f, 0.3f, 0.2f}
+            };
 
+            for (int i = 0; i < 12; i++) {
+                Icosahedron ico;
+                ico.generateUnitIcosahedron();
+                subdivide(ico.vertices, ico.indices, 2);
+                ico.transform(sigmas[i], alpha_mins[i], scales[i], rotations[i], means[i]);
+                TriangleMesh mesh;
+                mesh.vertex = ico.vertices;
+                mesh.index = ico.indices;
+                mesh.color = colors[i];
+                mesh.MeshId = i;
+                meshes.push_back(mesh);
+            }
 
         }
 
@@ -475,7 +490,7 @@ int main( int argc, char* argv[] )
             size_t      miss_record_size = sizeof( MissSbtRecord );
             CUDA_CHECK( cudaMalloc( reinterpret_cast<void**>( &miss_record ), miss_record_size ) );
             MissSbtRecord ms_sbt;
-            ms_sbt.data.bg_color = {1.0f, 0.0f, 0.0f};
+            ms_sbt.data.bg_color = {0.0f, 0.0f, 0.0f};
             // ms_sbt.data = nullptr;
             OPTIX_CHECK( optixSbtRecordPackHeader( miss_prog_group, &ms_sbt ) );
             CUDA_CHECK( cudaMemcpy(
