@@ -452,7 +452,7 @@ function(OPTIX_add_sample_executable target_name_base target_name_var)
 endfunction()
 
 #########################################################
-add_subdirectory( icosahedron_ellipsoid_example )
+add_subdirectory( ../src/icosahedron_ellipsoid_example src) ## TODO: Always change this if name is changed
 
 # Our sutil library.  The rules to build it are found in the subdirectory.
 add_subdirectory(sutil)
